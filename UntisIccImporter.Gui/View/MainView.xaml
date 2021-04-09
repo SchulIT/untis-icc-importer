@@ -1,0 +1,484 @@
+﻿<mah:MetroWindow x:Class="UntisIccImporter.Gui.View.MainView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                 xmlns:behavior="clr-namespace:UntisIccImporter.Gui.Behavior"
+                 xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                 dialog:DialogParticipation.Register="{Binding}"
+                 ResizeMode="CanResizeWithGrip"
+                 WindowStartupLocation="CenterScreen"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 mc:Ignorable="d"
+                 DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=Main}"
+                 Title="Untis ICC Importer" 
+                 Height="700" Width="600">
+
+    <mah:MetroWindow.Resources>
+        <DrawingImage x:Key="Icon">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                    <GeometryDrawing Geometry="F1 M16,16z M0,0z M16,16L0,16 0,0 16,0 16,16z">
+                        <GeometryDrawing.Brush>
+                            <SolidColorBrush Color="#FFF6F6F6" Opacity="0" />
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1 M16,16z M0,0z M15.986,12.773C15.986,14.395 14.811,15.765 13.255,15.959 13.229,15.97 13.099,16 12.938,16L0,16 0,0 10,0 10,7.124C10.49,7.251,10.954,7.47,11.352,7.791L11.739,7.766C13.173,7.766 14.396,8.795 14.722,10.189 15.504,10.789 15.986,11.753 15.986,12.773z" />
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FF424242" Geometry="F1 M16,16z M0,0z M4,12.607C4,11.375 4.644,10.253 5.649,9.658 6.104,8.13 7.434,7.065 9,7.01L9,1 1,1 1,15 4.947,15C4.362,14.386,4,13.54,4,12.607z" />
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,2,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,4,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,6,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,6,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,4,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF424242">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,2,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF1BA1E2" Geometry="F1 M16,16z M0,0z M13.804,10.785C13.732,9.659 12.833,8.765 11.74,8.765 11.504,8.765 11.274,8.808 11.058,8.888 10.575,8.337 9.886,8 9.124,8 7.812,8 6.72,9.019 6.517,10.349 5.635,10.673 5,11.571 5,12.607 5,13.917 5.978,15 7.243,15L12.937,15 13.13,14.966C14.181,14.836 14.985,13.894 14.985,12.773 14.986,11.904 14.503,11.144 13.804,10.785z" />
+                    </DrawingGroup>
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FF9ECA00">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,2,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF9ECA00">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,4,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF848484">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,2,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF848484">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,4,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF9ECA00">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="2,6,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF848484">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="4,6,4,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </mah:MetroWindow.Resources>
+    
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Width="16" Height="16" Source="{StaticResource Icon}"></Image>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
+
+    <mah:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <TextBlock Text="Untis ICC Importer" VerticalAlignment="Center"></TextBlock>
+        </DataTemplate>
+    </mah:MetroWindow.TitleTemplate>
+    
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <Button ToolTip="Einstellungen" Click="OnSettingsButtonClick">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <iconPacks:PackIconModern Width="16"
+                                                  Height="16"
+                                                  VerticalAlignment="Center"
+                                                  Kind="Settings" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+            <Button ToolTip="Über" Click="OnAboutButtonClick">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <iconPacks:PackIconModern Width="16"
+                                                  Height="16"
+                                                  VerticalAlignment="Center"
+                                                  Kind="InformationCircle" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+            <Button Click="OnGithubButtonClick" Content="GitHub">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="22"
+                                                      Height="22"
+                                                      VerticalAlignment="Center"
+                                                      Kind="SocialGithubOctocat" />
+                            <TextBlock Margin="4 0 0 0"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout x:Name="settingsFlyout" Header="Einstellungen" Position="Right" Width="350">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="10" DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=Settings}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox mah:TextBoxHelper.Watermark="ICC Endpunkt"
+                                 mah:TextBoxHelper.UseFloatingWatermark="True"
+                                 mah:TextBoxHelper.TextButton="True"
+                                 Text="{Binding IccEndpoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5">
+                        </TextBox>
+
+                        <TextBox mah:TextBoxHelper.Watermark="ICC Token"
+                                 mah:TextBoxHelper.UseFloatingWatermark="True"
+                                 mah:TextBoxHelper.TextButton="True"
+                                 Text="{Binding IccToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Grid.Row="1" Margin="0,5">
+
+                        </TextBox>
+
+                        <mah:NumericUpDown mah:TextBoxHelper.Watermark="Vertretungsplan-Tage"
+                                           mah:TextBoxHelper.UseFloatingWatermark="True"
+                                           mah:TextBoxHelper.TextButton="True"
+                                           mah:TextBoxHelper.ClearTextButton="True"
+                                           Value="{Binding SubstitutionDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Grid.Row="2" Margin="0,5">
+                        </mah:NumericUpDown>
+
+                        <CheckBox Grid.Row="3"
+                                  IsChecked="{Binding AlwaysIncludeStudents}">
+                            Klausurschreibende importieren
+                        </CheckBox>
+
+                        <TextBlock Grid.Row="4" TextWrapping="Wrap"
+                                   Margin="0,5">
+                            Wenn diese Option aktiv ist, werden die Klausurschreibenden
+                            aus Untis importiert. Anderenfalls werden die Schreibenden
+                            anhand festgelegter Regeln vom ICC aufgelöst.
+                        </TextBlock>
+
+                        <TextBox Grid.Row="5"
+                                 Text="{Binding ExcludeRegExp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 mah:TextBoxHelper.Watermark="Ausnahme (regulärer Ausdruck)"
+                                 mah:TextBoxHelper.UseFloatingWatermark="True"
+                                 mah:TextBoxHelper.TextButton="True">
+                            
+                        </TextBox>
+
+                        <TextBlock Grid.Row="6" TextWrapping="Wrap"
+                                   Margin="0,5">
+                            Wenn der Klausurname mit dem regulären Ausdruck gematcht wird,
+                            wird die festgelegte Option (Klausurschreibende aus Untis importieren)
+                            umgekehrt.
+                        </TextBlock>
+
+
+                        <DataGrid Grid.Row="7"
+                                  ItemsSource="{Binding SubjectOverrides}"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Untis Fach"
+                                                    Binding="{Binding UntisSubject}"/>
+                                <DataGridTextColumn Header="ICC Fach"
+                                                    Binding="{Binding NewSubject}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="8">
+                            <Button Style="{DynamicResource MahApps.Styles.Button.Flat}"
+                                    Command="{Binding SaveCommand}">
+                                Übernehmen
+                            </Button>
+
+                            <TextBlock x:Name="settingsResultText" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </mah:Flyout>
+
+            <mah:Flyout x:Name="aboutFlyout" Header="Über" Position="Right" Width="350">
+                <Grid DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=About}"
+                                  Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding ApplicationName}" />
+                    <TextBlock Grid.Row="1" Text="{Binding Version}" />
+                    <TextBlock Grid.Row="2" Text="{Binding Copyright}" />
+                    <TextBlock Grid.Row="3">
+                                    <Hyperlink NavigateUri="{Binding ProjectUrl}" RequestNavigate="OnRequestNavigate">
+                                        <TextBlock Text="{Binding ProjectUrl}" />
+                                    </Hyperlink>
+                                </TextBlock>
+
+                    <TextBlock Grid.Row="5" TextWrapping="Wrap" Margin="0,10,0,10">
+                                    Dieses Programm nutzt Icons aus der <Hyperlink NavigateUri="https://www.microsoft.com/en-us/download/details.aspx?id=35825" RequestNavigate="OnRequestNavigate">Visual Studio Image Library</Hyperlink>.
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="6" TextWrapping="Wrap" Margin="0,10,0,10">
+                                    Dieses Programm nutzt Bibliotheken von Drittanbietern. Diese sind im Folgenden aufgelistet. Besonderen Dank an die Entwickler dieser Bibliothken.
+                    </TextBlock>
+
+                    <ScrollViewer Grid.Row="7">
+                        <ItemsControl ItemsSource="{Binding Libraries}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,25">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock>
+                                            <Hyperlink NavigateUri="{Binding PackageUrl}" RequestNavigate="OnRequestNavigate">
+                                                <TextBlock Text="{Binding PackageName}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}"
+                                                           TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="2">
+                                            <Hyperlink NavigateUri="{Binding LicenseUrl}" RequestNavigate="OnRequestNavigate">
+                                                <TextBlock Text="Lizenz anzeigen" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+
+    <DockPanel IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+        <!--<StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>Keine Untis-Datei geladen</StatusBarItem>
+            <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
+            <StatusBarItem>Letzter Upload: nie</StatusBarItem>
+        </StatusBar>-->
+
+        <Grid DockPanel.Dock="Bottom" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanVisibilityConverter}}"
+                  Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <mah:ProgressRing IsActive="{Binding IsBusy}"
+                                  Margin="0,0,10,0"></mah:ProgressRing>
+                <TextBlock Text="{Binding BusyText}"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap" />
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand}"
+                        Margin="0,0,5,0">
+                    Hochladen &amp; Benachrichtigen
+                </Button>
+                <Button Grid.Column="1" Margin="5,0,0,0" Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand, ConverterParameter=True}">
+                    Nur Hochladen (ohne Benachrichtigen)
+                </Button>
+
+            </Grid>
+            
+            
+        </Grid>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox mah:TextBoxHelper.Watermark="Untis-Datei auswählen"
+                             mah:TextBoxHelper.UseFloatingWatermark="True"
+                             mah:TextBoxHelper.TextButton="True" 
+                             IsEnabled="False"
+                             Text="{Binding GpnFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                    </TextBox>
+
+                    <Button Grid.Column="1" Click="OnChooseFileClick"
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}">auswählen</Button>
+                    <Button Grid.Column="2" Command="{Binding LoadCommand}"
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}">neu laden</Button>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock>Zu synchronisierende Elemente auswählen</TextBlock>
+                    <CheckBox Grid.Row="1" Margin="0,2" IsChecked="{Binding IsSubstitutionSyncEnabled, Mode=TwoWay}">Vertretungsplan</CheckBox>
+                    <CheckBox Grid.Row="2" Margin="0,2" IsChecked="{Binding IsDayTextsSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsSubstitutionSyncEnabled}">Tagestexte &amp; Unterrichtsfrei</CheckBox>
+                    <CheckBox Grid.Row="3" Margin="0,2" IsChecked="{Binding IsAbsencesSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsSubstitutionSyncEnabled}">Absenzen</CheckBox>
+                    <CheckBox Grid.Row="4" Margin="0,2" IsChecked="{Binding IsExamsSyncEnabled, Mode=TwoWay}">Klausurplan</CheckBox>
+                    <CheckBox Grid.Row="5" Margin="0,2" IsChecked="{Binding IsTimetableSyncEnabled, Mode=TwoWay}">Stundenplan</CheckBox>
+                    <CheckBox Grid.Row="6" Margin="0,2" IsChecked="{Binding IsSupervisionSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsTimetableSyncEnabled}">Pausenaufsichten</CheckBox>
+                    <CheckBox Grid.Row="7" Margin="0,2" IsChecked="{Binding IsRoomsSyncEnabled, Mode=TwoWay}">Räume</CheckBox>
+
+
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock>Zeitbereiche auswählen</TextBlock>
+
+                    <DatePicker Grid.Row="1" Margin="0,2"
+                                mah:TextBoxHelper.Watermark="Start (Vertretungsplan, Absenzen, Tagestexte)"
+                                mah:TextBoxHelper.UseFloatingWatermark="True"
+                                mah:TextBoxHelper.ClearTextButton="True"
+                                IsEnabled="{Binding IsSubstitutionSyncEnabled}"
+                                SelectedDate="{Binding SubstitutionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DatePicker Grid.Row="2" Margin="0,2"
+                                mah:TextBoxHelper.Watermark="Ende (Vertretungsplan, Absenzen, Tagestexte)"
+                                mah:TextBoxHelper.UseFloatingWatermark="True"
+                                mah:TextBoxHelper.ClearTextButton="True"
+                                IsEnabled="{Binding IsSubstitutionSyncEnabled}"
+                                SelectedDate="{Binding SubstitutionEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <DatePicker Grid.Row="3" Margin="0,2"
+                                IsEnabled="{Binding IsExamsSyncEnabled}"
+                                SelectedDate="{Binding ExamStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                mah:TextBoxHelper.Watermark="Start (Klausurplan)"
+                                mah:TextBoxHelper.UseFloatingWatermark="True"
+                                mah:TextBoxHelper.ClearTextButton="True" />
+                    <DatePicker Grid.Row="4" Margin="0,2"
+                                IsEnabled="{Binding IsExamsSyncEnabled}"
+                                SelectedDate="{Binding ExamEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                mah:TextBoxHelper.Watermark="Ende (Klausurplan)"
+                                mah:TextBoxHelper.UseFloatingWatermark="True"
+                                mah:TextBoxHelper.ClearTextButton="True" />
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock>Perioden auswählen (Stundenplan, Pausenaufsichten)</TextBlock>
+
+                    <ListView BorderThickness="1"
+                              IsEnabled="{Binding IsTimetableSyncEnabled}"
+                              Grid.Row="1"
+                              ItemsSource="{Binding Periods}"
+                              SelectionMode="Multiple"
+                              Style="{StaticResource MahApps.Styles.ListView.Virtualized}">
+                        <b:Interaction.Behaviors>
+                            <behavior:SelectedItemsBehavior SelectedItems="{Binding SelectedPeriods}" />
+                        </b:Interaction.Behaviors>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Index"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding LongName}" Header="Langname"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Start, StringFormat=d, ConverterCulture=de}" Header="Start"></GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding End, StringFormat=d, ConverterCulture=de}" Header="Ende"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+
+                
+            </Grid>
+        </ScrollViewer>
+
+
+    </DockPanel>
+</mah:MetroWindow>
