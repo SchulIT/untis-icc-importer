@@ -179,11 +179,17 @@ namespace UntisIccImporter.Gui.Import
                         ReplacementSubject = substitution.ReplacementSubject,
                         Rooms = substitution.Rooms,
                         ReplacementRooms = substitution.ReplacementRooms,
-                        Grades = new List<string>(substitution.Grades.Distinct()),
-                        ReplacementGrades = new List<string>(substitution.Grades.Distinct()),
+                        Grades = substitution.Grades.Distinct().ToList(),
+                        ReplacementGrades = substitution.Grades.Distinct().ToList(),
                         Type = substitution.Type.ToString(),
                         Text = substitution.Text
                     };
+
+                    if(substitution.Type == SubstitutionType.Sondereinsatz)
+                    {
+                        data.Grades.Clear();
+                        data.Subject = null;
+                    }
 
                     if(string.IsNullOrEmpty(substitution.ReplacementSubject))
                     {

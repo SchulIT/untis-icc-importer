@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define UpgradeGuid="F6163463-F595-4D3A-9E24-25801FFD7174" ?>
+  <?define Version="1.3.0"?>
+
+  <Product Id="*" Name="Untis ICC Importer" Language="1033" Version="$(var.Version)" Manufacturer="SchulIT" UpgradeCode="$(var.UpgradeGuid)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" />
+    <Media Id="1" Cabinet="data.cab" EmbedCab="yes" />
+
+    <!-- Icon for Programs & Features -->
+    <Icon Id="icon.ico" SourceFile="icon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <!-- APPLICATION DIRECTORY -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="VENDORFOLDER" Name="SchulIT">
+          <Directory Id="APPLICATIONFOLDER" Name="Untis ICC Importer">
+            <Directory Id="GUI_INSTALLLOCATION" Name="GUI" />
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <!-- STARTMENU -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="MyShortCutsDir" Name="SchulIT">
+          <Component Id="ShortCutComponent" Guid="8CD60B00-96BF-40DB-B077-E055937B0DA2">
+            <Shortcut Id="ShortCutGUI" Name="Untis ICC Importer" Target="[GUI_INSTALLLOCATION]\UntisIccImporter.Gui.exe" Icon="icon.ico" />
+            <RemoveFolder Id="RemoveShortCut" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\SchulIT\UntisIccImporter" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="MainFeature" Title="Untis ICC Importer" Level="1">
+      <ComponentGroupRef Id="GuiSourceComponentGroup" />
+
+      <Feature Id="ShortcutFeature" Title="Startmenü-Verknüpfung" Level="1">
+        <ComponentRef Id="ShortCutComponent"/>
+      </Feature>
+    </Feature>
+
+    <!-- PREVENT DOWNGRADING -->
+    <MajorUpgrade DowngradeErrorMessage="Downgrading nicht möglich. Bitte zunächst die Software deinstallieren und danach erneut probieren." />
+
+    <UIRef Id="WixUI_Advanced" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Property Id="VendorFolderName" Value="SchulIT" />
+    <Property Id="ApplicationFolderName" Value="Untis ICC Importer" />
+    <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+    <WixVariable Id="WixUISupportPerUser" Value="0" />
+    <WixVariable Id="WixUILicenseRtf" Value="Eula.rtf" />
+
+    <SetDirectory Id="APPLICATIONFOLDER" Value="[ProgramFiles64Folder][VendorFolderName]\[ApplicationFolderName]">APPLICATIONFOLDER=""</SetDirectory>
+  </Product>
+</Wix>
