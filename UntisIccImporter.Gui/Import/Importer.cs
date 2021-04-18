@@ -100,6 +100,16 @@ namespace UntisIccImporter.Gui.Import
                         }
                     }
 
+                    if(day.Type == DayType.Feiertag || day.Type == DayType.Unterrichtsfrei)
+                    {
+                        spans.Add(new FreeLessonTimespanData
+                        {
+                            Date = day.Date,
+                            Start = result.Settings.NumberOfFirstLesson,
+                            End = result.Settings.NumberOfLessonsPerDay
+                        });
+                    }
+
                     return spans;
                 });
 
@@ -114,17 +124,34 @@ namespace UntisIccImporter.Gui.Import
             var infotexts = result.Days.Where(x => startDate == null || endDate == null || (x.Date >= startDate && x.Date <= endDate))
                 .SelectMany(day =>
                 {
-                    return Array.Empty<InfotextData>();
-
-                    /*return day.Texts.Select(text =>
+                    var result = new List<InfotextData>();
+                    
+                    if(!string.IsNullOrEmpty(day.Note))
                     {
-
-                        return new InfotextData
+                        result.Add(new InfotextData
                         {
-                            Content = RemoveHtmlTags(text.Text.Replace("~", "\n")),
-                            Date = text.Date
-                        };
-                    });*/
+                            Date = day.Date,
+                            Content = RemoveHtmlTags(day.Note)
+                        });
+                    }
+
+                    foreach(var text in day.Texts)
+                    {
+                        var currentDate = new DateTime(text.StartDate.Ticks);
+
+                        while (currentDate <= text.EndDate)
+                        {
+                            result.Add(new InfotextData
+                            {
+                                Date = currentDate,
+                                Content = RemoveHtmlTags(text.Text)
+                            });
+
+                            currentDate = currentDate.AddDays(1);
+                        }
+                    }
+
+                    return result;
                 }).ToList();
 
             var response = await importer.ImportInfotextsAsync(infotexts);
