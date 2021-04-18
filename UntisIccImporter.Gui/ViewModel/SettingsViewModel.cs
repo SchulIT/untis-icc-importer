@@ -64,6 +64,8 @@ namespace UntisIccImporter.Gui.ViewModel
 
         public ObservableCollection<SubjectOverride> SubjectOverrides { get; } = new ObservableCollection<SubjectOverride>();
 
+        public ObservableCollection<SplitCourse> SplitCourses { get; } = new ObservableCollection<SplitCourse>();
+
         #region Commands
 
         public RelayCommand SaveCommand { get; private set; }
@@ -99,6 +101,8 @@ namespace UntisIccImporter.Gui.ViewModel
                 appSettings.NumberAutoSelectedDays = SubstitutionDays;
                 appSettings.SubjectOverrides.Clear();
                 appSettings.SubjectOverrides.AddRange(SubjectOverrides);
+                appSettings.SplitCourses.Clear();
+                appSettings.SplitCourses.AddRange(SplitCourses);
                 appSettings.AlwaysIncludeStudents = AlwaysIncludeStudents;
                 appSettings.ExcludeRegExp = ExcludeRegExp;
 
@@ -124,10 +128,16 @@ namespace UntisIccImporter.Gui.ViewModel
             AlwaysIncludeStudents = settingsManager.AppSettings.AlwaysIncludeStudents;
             ExcludeRegExp = settingsManager.AppSettings.ExcludeRegExp;
             SubjectOverrides.Clear();
+            SplitCourses.Clear();
 
             foreach(var @override in settingsManager.AppSettings.SubjectOverrides)
             {
                 SubjectOverrides.Add(@override);
+            }
+
+            foreach(var splitCourse in settingsManager.AppSettings.SplitCourses)
+            {
+                SplitCourses.Add(splitCourse);
             }
         }
     }

@@ -167,6 +167,10 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <TextBox mah:TextBoxHelper.Watermark="ICC Endpunkt"
@@ -219,8 +223,13 @@
                             umgekehrt.
                         </TextBlock>
 
+                        <TextBlock Grid.Row="7" TextWrapping="Wrap"
+                                   Margin="0,5">
+                            Wenn sich Fächer in Untis von denen auf dem ICC unterscheiden
+                            werden sie anhand der folgenden Tabelle übersetzt.
+                        </TextBlock>
 
-                        <DataGrid Grid.Row="7"
+                        <DataGrid Grid.Row="8"
                                   ItemsSource="{Binding SubjectOverrides}"
                                   AutoGenerateColumns="False">
                             <DataGrid.Columns>
@@ -231,7 +240,25 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="8">
+                        <TextBlock Grid.Row="9" TextWrapping="Wrap"
+                                   Margin="0,5">
+                            Stufenübergreifende Kurse müssen aufgesplittet werden, wenn
+                            sie auf dem ICC für jede Jahrgangsstufe separat geführt werden
+                            aber in Untis gemeinsam geführt werden.
+                        </TextBlock>
+                        
+                        <DataGrid Grid.Row="10"
+                                  ItemsSource="{Binding SplitCourses}"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Untis Fach"
+                                                    Binding="{Binding Subject}"/>
+                                <DataGridTextColumn Header="Klasse"
+                                                    Binding="{Binding Grade}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="11">
                             <Button Style="{DynamicResource MahApps.Styles.Button.Flat}"
                                     Command="{Binding SaveCommand}">
                                 Übernehmen

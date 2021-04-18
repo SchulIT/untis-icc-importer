@@ -22,5 +22,8 @@ namespace UntisIccImporter.Gui.Settings
 
         [JsonProperty]
         public List<SubjectOverride> SubjectOverrides { get; } = new List<SubjectOverride>();
+
+        [JsonProperty]
+        public List<SplitCourse> SplitCourses { get; } = new List<SplitCourse>();
     }
 }

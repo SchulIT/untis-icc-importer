@@ -395,14 +395,6 @@ namespace UntisIccImporter.Gui.Import
                             continue;
                         }
 
-                        var last = lessons.LastOrDefault();
-
-                        if(last != null && last.Day == timetable.Day && last.Room == timetable.Room && last.Week == timetable.Week && last.Subject == tuitionPeriod.Subject && last.IsDoubleLesson == false && last.Lesson == timetable.Lesson - 1)
-                        {
-                            last.IsDoubleLesson = true;
-                            continue;
-                        }
-
                         var lesson = new TimetableLessonData
                         {
                             Day = timetable.Day,
@@ -415,19 +407,67 @@ namespace UntisIccImporter.Gui.Import
                             Subject = tuitionPeriod.Subject
                         };
 
-                        // Replace subject if necessary
-                        if(subjectReplacementMap.ContainsKey(tuitionPeriod.Subject))
-                        {
-                            lesson.Subject = subjectReplacementMap[tuitionPeriod.Subject];
-                        }
-
-                        if(!string.IsNullOrEmpty(tuitionPeriod.Teacher))
+                        if (!string.IsNullOrEmpty(tuitionPeriod.Teacher))
                         {
                             lesson.Teachers.Add(tuitionPeriod.Teacher);
                         }
 
+                        var last = lessons.LastOrDefault();
+
+                        if(last != null && last.Day == lesson.Day && last.Room == lesson.Room && last.Week == lesson.Week && last.Subject == lesson.Subject && last.IsDoubleLesson == false && last.Lesson == lesson.Lesson - 1)
+                        {
+                            last.IsDoubleLesson = true;
+                            continue;
+                        }
+
                         lessons.Add(lesson);
                     }
+                }
+            }
+
+            var splitLessons = new List<TimetableLessonData>();
+
+            foreach (var lesson in lessons)
+            {
+                if(lesson.Grades.Count == 0)
+                {
+                    continue;
+                }
+
+                if (settingsManager.AppSettings.SplitCourses.Any(x => x.Subject == lesson.Subject && lesson.Grades.Contains(x.Grade)))
+                {
+                    var firstGrade = lesson.Grades.First();
+                    var grades = lesson.Grades.Skip(1).ToList();
+                    lesson.Grades = new List<string> { firstGrade };
+
+                    foreach(var grade in grades)
+                    {
+                        var newLesson = new TimetableLessonData
+                        {
+                            Day = lesson.Day,
+                            Lesson = lesson.Lesson,
+                            IsDoubleLesson = lesson.IsDoubleLesson,
+                            Room = lesson.Room,
+                            Week = lesson.Week,
+                            Id = Guid.NewGuid().ToString(),
+                            Grades = new List<string> { grade },
+                            Subject = lesson.Subject,
+                            Teachers = lesson.Teachers
+                        };
+
+                        splitLessons.Add(newLesson);
+                    }
+                }
+            }
+
+            lessons.AddRange(splitLessons);
+
+            foreach(var lesson in lessons)
+            {
+                // Replace subject if necessary
+                if (subjectReplacementMap.ContainsKey(lesson.Subject))
+                {
+                    lesson.Subject = subjectReplacementMap[lesson.Subject];
                 }
             }
 
