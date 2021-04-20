@@ -7,6 +7,7 @@ using SchulIT.UntisExport.Model;
 using SchulIT.UntisExport.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -361,12 +362,11 @@ namespace UntisIccImporter.Gui.Import
             {
                 foreach(var supervision in floor.Supervisions)
                 {
-                    var supervisionWeeks = weeks.Where(x => supervision.Weeks.Contains(x.SchoolYearWeek)).Select(x => x.CalendarWeek).ToList();
-
-                    if(supervision.Weeks.Count == 0)
-                    {
-                        supervisionWeeks = periodWeeks;
-                    }
+                    var supervisionWeeks = weeks
+                        .Where(x => supervision.Weeks.Contains(x.SchoolYearWeek))
+                        .Select(x => x.CalendarWeek)
+                        .Where(x => periodWeeks.Contains(x))
+                        .ToList();
 
                     if(supervisionWeeks.Any())
                     {
@@ -586,12 +586,8 @@ namespace UntisIccImporter.Gui.Import
 
             while (startDate < endDate)
             {
-                var calendarWeek = weeks.Reverse<Week>().FirstOrDefault(x => x.FirstDay < startDate && (x.FirstDay - startDate).TotalDays < 7);
-
-                if (calendarWeek != null)
-                {
-                    calendarWeeks.Add(calendarWeek.CalendarWeek);
-                }
+                var calendarWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(startDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                calendarWeeks.Add(calendarWeek);
 
                 startDate = startDate.AddDays(7);
             }
