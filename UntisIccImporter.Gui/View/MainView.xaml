@@ -482,7 +482,6 @@
                     <TextBlock>Perioden auswählen (Stundenplan, Pausenaufsichten)</TextBlock>
 
                     <ListView BorderThickness="1"
-                              IsEnabled="{Binding IsTimetableSyncEnabled}"
                               Grid.Row="1"
                               ItemsSource="{Binding Periods}"
                               SelectionMode="Multiple"

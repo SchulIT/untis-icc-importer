@@ -91,11 +91,6 @@ namespace UntisIccImporter.Gui.ViewModel
             set
             {
                 Set(() => IsTimetableSyncEnabled, ref isTimetableSyncEnabled, value);
-                
-                if(!IsTimetableSyncEnabled)
-                {
-                    IsSupervisionSyncEnabled = false;
-                }
 
                 SaveSettings();
             }
