@@ -389,14 +389,16 @@ namespace UntisIccImporter.Gui.Import
             return HandleResponse(response);
         }
 
-        
-
         public async Task<ImportResult> ImportTimetableAsync(UntisExportResult result, Period period)
         {
             ConfigureImporter();
 
             var lessons = new List<TimetableLessonData>();
             var subjectReplacementMap = settingsManager.AppSettings.SubjectOverrides.ToDictionary(x => x.UntisSubject, x => x.NewSubject);
+
+            var bereit = result.Tuitions.Where(x => x.Periods.Any(y => y.Subject == "Bereit")).ToList();
+
+            var allowedWeeks = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P" }; // Untis only allows a periodicity of 16
 
             foreach(var tuition in result.Tuitions)
             {
@@ -415,38 +417,43 @@ namespace UntisIccImporter.Gui.Import
 
                     foreach(var timetable in tuitionPeriod.Timetable)
                     {
-                        if(timetable.Day == 0 || timetable.Lesson == 0 || string.IsNullOrWhiteSpace(timetable.Week) || string.IsNullOrEmpty(tuitionPeriod.Subject))
+                        var weeks = !string.IsNullOrEmpty(timetable.Week) ? new string[] { timetable.Week } : tuitionPeriod.TuitionGroups;
+
+                        foreach (var week in weeks)
                         {
-                            // ??!?
-                            continue;
+                            if (!allowedWeeks.Contains(week) || timetable.Day == 0 || timetable.Lesson == 0 || string.IsNullOrEmpty(tuitionPeriod.Subject))
+                            {
+                                // ??!?
+                                continue;
+                            }
+
+                            var lesson = new TimetableLessonData
+                            {
+                                Day = timetable.Day,
+                                Lesson = timetable.Lesson,
+                                IsDoubleLesson = false,
+                                Room = timetable.Room,
+                                Week = week,
+                                Id = Guid.NewGuid().ToString(),
+                                Grades = tuitionPeriod.Grades,
+                                Subject = tuitionPeriod.Subject
+                            };
+
+                            if (!string.IsNullOrEmpty(tuitionPeriod.Teacher))
+                            {
+                                lesson.Teachers.Add(tuitionPeriod.Teacher);
+                            }
+
+                            var last = lessons.LastOrDefault();
+
+                            if (last != null && last.Day == lesson.Day && last.Room == lesson.Room && last.Week == lesson.Week && last.Subject == lesson.Subject && last.IsDoubleLesson == false && last.Lesson == lesson.Lesson - 1)
+                            {
+                                last.IsDoubleLesson = true;
+                                continue;
+                            }
+
+                            lessons.Add(lesson);
                         }
-
-                        var lesson = new TimetableLessonData
-                        {
-                            Day = timetable.Day,
-                            Lesson = timetable.Lesson,
-                            IsDoubleLesson = false,
-                            Room = timetable.Room,
-                            Week = timetable.Week,
-                            Id = Guid.NewGuid().ToString(),
-                            Grades = tuitionPeriod.Grades,
-                            Subject = tuitionPeriod.Subject
-                        };
-
-                        if (!string.IsNullOrEmpty(tuitionPeriod.Teacher))
-                        {
-                            lesson.Teachers.Add(tuitionPeriod.Teacher);
-                        }
-
-                        var last = lessons.LastOrDefault();
-
-                        if(last != null && last.Day == lesson.Day && last.Room == lesson.Room && last.Week == lesson.Week && last.Subject == lesson.Subject && last.IsDoubleLesson == false && last.Lesson == lesson.Lesson - 1)
-                        {
-                            last.IsDoubleLesson = true;
-                            continue;
-                        }
-
-                        lessons.Add(lesson);
                     }
                 }
             }
