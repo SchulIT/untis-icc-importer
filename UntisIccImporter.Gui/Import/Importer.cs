@@ -213,10 +213,9 @@ namespace UntisIccImporter.Gui.Import
                         Text = substitution.Text
                     };
 
-                    if(substitution.Type == SubstitutionType.Sondereinsatz)
+                    if(string.IsNullOrEmpty(data.Subject))
                     {
                         data.Grades.Clear();
-                        data.Subject = null;
                     }
 
                     if(string.IsNullOrEmpty(substitution.ReplacementSubject))
