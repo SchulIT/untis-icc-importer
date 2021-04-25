@@ -132,7 +132,7 @@ namespace UntisIccImporter.Gui.Import
                         result.Add(new InfotextData
                         {
                             Date = day.Date,
-                            Content = RemoveHtmlTags(day.Note)
+                            Content = NormalizeHtmlContent(day.Note)
                         });
                     }
 
@@ -145,7 +145,7 @@ namespace UntisIccImporter.Gui.Import
                             result.Add(new InfotextData
                             {
                                 Date = currentDate,
-                                Content = RemoveHtmlTags(text.Text)
+                                Content = NormalizeHtmlContent(text.Text)
                             });
 
                             currentDate = currentDate.AddDays(1);
@@ -601,11 +601,13 @@ namespace UntisIccImporter.Gui.Import
             return calendarWeeks;
         }
 
-        private static string RemoveHtmlTags(string html)
+        private static string NormalizeHtmlContent(string html)
         {
+            html = html.Replace("~", "<br>");
+
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
-            return doc.DocumentNode.InnerText;
+            return doc.DocumentNode.InnerText.Trim();
         }
 
         
