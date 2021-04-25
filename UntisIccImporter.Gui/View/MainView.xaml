@@ -337,7 +337,12 @@
 
     <DockPanel IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
         <StatusBar DockPanel.Dock="Bottom" Padding="5">
-            <StatusBarItem>Untisdatei geladen am: </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock>
+                    Untisdatei geladen am:
+                    <Run Text="{Binding GpnLoadDateTime, ConverterCulture=de}"></Run>
+                </TextBlock>
+            </StatusBarItem>
         </StatusBar>
 
         <Grid DockPanel.Dock="Bottom" Margin="10">
