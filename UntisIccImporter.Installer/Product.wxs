@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?define UpgradeGuid="F6163463-F595-4D3A-9E24-25801FFD7174" ?>
-  <?define Version="1.3.4"?>
+  <?define Version="1.3.5"?>
 
   <Product Id="*" Name="Untis ICC Importer" Language="1033" Version="$(var.Version)" Manufacturer="SchulIT" UpgradeCode="$(var.UpgradeGuid)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" />
