@@ -211,6 +211,16 @@ namespace UntisIccImporter.Gui.ViewModel
             }
         }
 
+        private DateTime? gpnLoadDateTime;
+
+        public DateTime? GpnLoadDateTime
+        {
+            get { return gpnLoadDateTime; }
+            set { Set(() => GpnLoadDateTime, ref gpnLoadDateTime, value); }
+        }
+
+        public ObservableCollection<ImportOutput> Output { get; } = new ObservableCollection<ImportOutput>();
+
         #endregion
 
         #region Commands
@@ -245,11 +255,18 @@ namespace UntisIccImporter.Gui.ViewModel
             LoadCommand = new RelayCommand(LoadGpnAsync, CanLoadGpn);
         }
 
-        private async Task<bool> HandleResultAsync(ImportResult importResult)
+        private async Task<bool> HandleResultAsync(ImportResult importResult, string section)
         {
             if(importResult.WasSuccessful == true)
             {
-                await dialogCoordinator.ShowMessageAsync(this, "Erfolg", importResult.Text, MessageDialogStyle.Affirmative);
+                Output.Add(
+                    new ImportOutput
+                    {
+                        Section = section,
+                        Date = DateTime.Now,
+                        Output = importResult.Text
+                    }
+                );
                 return true;
             }
 
@@ -288,6 +305,8 @@ namespace UntisIccImporter.Gui.ViewModel
         {
             try
             {
+                Output.Clear();
+
                 IsBusy = true;
 
                 if (IsRoomsSyncEnabled)
@@ -295,7 +314,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Räume...";
                     var result = await importer.ImportRoomsAsync(Result);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Räume") == false)
                     {
                         return;
                     }
@@ -306,7 +325,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Tagestexte...";
                     var result = await importer.ImportDayTextsAsync(Result, SubstitutionStart, SubstitutionEnd);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Tagestexte") == false)
                     {
                         return;
                     }
@@ -317,7 +336,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere unterrichtsfreie Stunden...";
                     var result = await importer.ImportFreeLessonsAsync(Result, SubstitutionStart, SubstitutionEnd);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Unterrichtsfrei") == false)
                     {
                         return;
                     }
@@ -328,7 +347,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Absenzen...";
                     var result = await importer.ImportAbsencesAsync(Result, SubstitutionStart, SubstitutionEnd);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Absenzen") == false)
                     {
                         return;
                     }
@@ -339,7 +358,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Vertretungen...";
                     var result = await importer.ImportSubstitutionsAsync(Result, SubstitutionStart, SubstitutionEnd, suppressNotifications);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Vertretungen") == false)
                     {
                         return;
                     }
@@ -350,7 +369,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Perioden...";
                     var result = await importer.ImportPeriodsAsync(Result, SelectedPeriods);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Perioden") == false)
                     {
                         return;
                     }
@@ -363,7 +382,7 @@ namespace UntisIccImporter.Gui.ViewModel
                         BusyText = $"Importiere Stundenplan ({period.LongName})...";
                         var result = await importer.ImportTimetableAsync(Result, period);
 
-                        if (await HandleResultAsync(result) == false)
+                        if (await HandleResultAsync(result, $"Stundenplan ({period.LongName})") == false)
                         {
                             return;
                         }
@@ -377,7 +396,7 @@ namespace UntisIccImporter.Gui.ViewModel
                         BusyText = $"Importiere Aufsichten ({period.LongName})...";
                         var result = await importer.ImportSupervisionsAsync(Result, period);
 
-                        if (await HandleResultAsync(result) == false)
+                        if (await HandleResultAsync(result, $"Aufsichten ({period.LongName})") == false)
                         {
                             return;
                         }
@@ -389,7 +408,7 @@ namespace UntisIccImporter.Gui.ViewModel
                     BusyText = "Importiere Klausuren...";
                     var result = await importer.ImportExamsAsync(Result, ExamStart, ExamEnd, suppressNotifications);
 
-                    if (await HandleResultAsync(result) == false)
+                    if (await HandleResultAsync(result, "Klausuren") == false)
                     {
                         return;
                     }
@@ -446,6 +465,7 @@ namespace UntisIccImporter.Gui.ViewModel
 
             try
             {
+                GpnLoadDateTime = null;
                 IsBusy = true;
                 Periods.Clear();
 
@@ -456,6 +476,8 @@ namespace UntisIccImporter.Gui.ViewModel
                 {
                     Periods.Add(period);
                 }
+
+                GpnLoadDateTime = DateTime.Now;
             }
             catch (Exception e)
             {
@@ -488,6 +510,15 @@ namespace UntisIccImporter.Gui.ViewModel
             settingsManager.UserSettings.ExamEnd = ExamEnd;
 
             settingsManager.SaveUserSettingsAsync();
+        }
+
+        public class ImportOutput
+        {
+            public DateTime Date { get; set; }
+
+            public string Section { get; set; }
+
+            public string Output { get; set; }
         }
     }
 }

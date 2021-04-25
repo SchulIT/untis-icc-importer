@@ -15,7 +15,7 @@
                  mc:Ignorable="d"
                  DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=Main}"
                  Title="Untis ICC Importer" 
-                 Height="700" Width="600">
+                 Height="600" Width="900">
 
     <mah:MetroWindow.Resources>
         <DrawingImage x:Key="Icon">
@@ -335,20 +335,20 @@
     </mah:MetroWindow.Flyouts>
 
     <DockPanel IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
-        <!--<StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>Keine Untis-Datei geladen</StatusBarItem>
-            <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
-            <StatusBarItem>Letzter Upload: nie</StatusBarItem>
-        </StatusBar>-->
+        <StatusBar DockPanel.Dock="Bottom" Padding="5">
+            <StatusBarItem>Untisdatei geladen am: </StatusBarItem>
+        </StatusBar>
 
         <Grid DockPanel.Dock="Bottom" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanVisibilityConverter}}"
-                  Margin="0,5">
+                  Margin="0,5"
+                  Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -362,7 +362,7 @@
                            TextWrapping="Wrap" />
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -376,8 +376,18 @@
                 </Button>
 
             </Grid>
-            
-            
+
+            <ListView Style="{StaticResource MahApps.Styles.ListView.Virtualized}"
+                      ItemsSource="{Binding Output}"
+                      Grid.Row="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Zeitpunkt" DisplayMemberBinding="{Binding Date}"></GridViewColumn>
+                        <GridViewColumn Header="Element" DisplayMemberBinding="{Binding Section}"></GridViewColumn>
+                        <GridViewColumn Header="Ausgabe" DisplayMemberBinding="{Binding Output}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
         
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -411,95 +421,104 @@
                             Style="{DynamicResource MahApps.Styles.Button.Flat}">neu laden</Button>
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="0,5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock>Zu synchronisierende Elemente auswählen</TextBlock>
-                    <CheckBox Grid.Row="1" Margin="0,2" IsChecked="{Binding IsSubstitutionSyncEnabled, Mode=TwoWay}">Vertretungsplan</CheckBox>
-                    <CheckBox Grid.Row="2" Margin="0,2" IsChecked="{Binding IsDayTextsSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsSubstitutionSyncEnabled}">Tagestexte &amp; Unterrichtsfrei</CheckBox>
-                    <CheckBox Grid.Row="3" Margin="0,2" IsChecked="{Binding IsAbsencesSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsSubstitutionSyncEnabled}">Absenzen</CheckBox>
-                    <CheckBox Grid.Row="4" Margin="0,2" IsChecked="{Binding IsExamsSyncEnabled, Mode=TwoWay}">Klausurplan</CheckBox>
-                    <CheckBox Grid.Row="5" Margin="0,2" IsChecked="{Binding IsTimetableSyncEnabled, Mode=TwoWay}">Stundenplan</CheckBox>
-                    <CheckBox Grid.Row="6" Margin="0,2" IsChecked="{Binding IsSupervisionSyncEnabled, Mode=TwoWay}" IsEnabled="{Binding IsTimetableSyncEnabled}">Pausenaufsichten</CheckBox>
-                    <CheckBox Grid.Row="7" Margin="0,2" IsChecked="{Binding IsRoomsSyncEnabled, Mode=TwoWay}">Räume</CheckBox>
+                    <Grid Margin="0,0,5,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock>Zu synchronisierende Elemente auswählen</TextBlock>
+                        <CheckBox Grid.Row="1" Margin="0,2" IsChecked="{Binding IsSubstitutionSyncEnabled, Mode=TwoWay}">Vertretungsplan</CheckBox>
+                        <CheckBox Grid.Row="2" Margin="0,2" IsChecked="{Binding IsDayTextsSyncEnabled, Mode=TwoWay}">Tagestexte &amp; Unterrichtsfrei</CheckBox>
+                        <CheckBox Grid.Row="3" Margin="0,2" IsChecked="{Binding IsAbsencesSyncEnabled, Mode=TwoWay}">Absenzen</CheckBox>
+                        <CheckBox Grid.Row="4" Margin="0,2" IsChecked="{Binding IsExamsSyncEnabled, Mode=TwoWay}">Klausurplan</CheckBox>
+                        <CheckBox Grid.Row="5" Margin="0,2" IsChecked="{Binding IsTimetableSyncEnabled, Mode=TwoWay}">Stundenplan</CheckBox>
+                        <CheckBox Grid.Row="6" Margin="0,2" IsChecked="{Binding IsSupervisionSyncEnabled, Mode=TwoWay}">Pausenaufsichten</CheckBox>
+                        <CheckBox Grid.Row="7" Margin="0,2" IsChecked="{Binding IsRoomsSyncEnabled, Mode=TwoWay}">Räume</CheckBox>
 
 
-                </Grid>
+                    </Grid>
 
-                <Grid Grid.Row="2" Margin="0,5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Margin="5,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock>Zeitbereiche auswählen</TextBlock>
+                        <TextBlock>Zeitbereiche auswählen</TextBlock>
 
-                    <DatePicker Grid.Row="1" Margin="0,2"
+                        <DatePicker Grid.Row="1" Margin="0,2"
                                 mah:TextBoxHelper.Watermark="Start (Vertretungsplan, Absenzen, Tagestexte)"
                                 mah:TextBoxHelper.UseFloatingWatermark="True"
                                 mah:TextBoxHelper.ClearTextButton="True"
                                 IsEnabled="{Binding IsSubstitutionSyncEnabled}"
                                 SelectedDate="{Binding SubstitutionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DatePicker Grid.Row="2" Margin="0,2"
+                        <DatePicker Grid.Row="2" Margin="0,2"
                                 mah:TextBoxHelper.Watermark="Ende (Vertretungsplan, Absenzen, Tagestexte)"
                                 mah:TextBoxHelper.UseFloatingWatermark="True"
                                 mah:TextBoxHelper.ClearTextButton="True"
                                 IsEnabled="{Binding IsSubstitutionSyncEnabled}"
                                 SelectedDate="{Binding SubstitutionEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <DatePicker Grid.Row="3" Margin="0,2"
+                        <DatePicker Grid.Row="3" Margin="0,2"
                                 IsEnabled="{Binding IsExamsSyncEnabled}"
                                 SelectedDate="{Binding ExamStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 mah:TextBoxHelper.Watermark="Start (Klausurplan)"
                                 mah:TextBoxHelper.UseFloatingWatermark="True"
                                 mah:TextBoxHelper.ClearTextButton="True" />
-                    <DatePicker Grid.Row="4" Margin="0,2"
+                        <DatePicker Grid.Row="4" Margin="0,2"
                                 IsEnabled="{Binding IsExamsSyncEnabled}"
                                 SelectedDate="{Binding ExamEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 mah:TextBoxHelper.Watermark="Ende (Klausurplan)"
                                 mah:TextBoxHelper.UseFloatingWatermark="True"
                                 mah:TextBoxHelper.ClearTextButton="True" />
-                </Grid>
+                    </Grid>
 
-                <Grid Grid.Row="3" Margin="0,5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="2" Margin="5,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock>Perioden auswählen (Stundenplan, Pausenaufsichten)</TextBlock>
+                        <TextBlock>Perioden auswählen (Stundenplan, Pausenaufsichten)</TextBlock>
 
-                    <ListView BorderThickness="1"
+                        <ListView BorderThickness="1"
                               Grid.Row="1"
                               ItemsSource="{Binding Periods}"
                               SelectionMode="Multiple"
                               Style="{StaticResource MahApps.Styles.ListView.Virtualized}">
-                        <b:Interaction.Behaviors>
-                            <behavior:SelectedItemsBehavior SelectedItems="{Binding SelectedPeriods}" />
-                        </b:Interaction.Behaviors>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Index"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding LongName}" Header="Langname"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Start, StringFormat=d, ConverterCulture=de}" Header="Start"></GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding End, StringFormat=d, ConverterCulture=de}" Header="Ende"></GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                            <b:Interaction.Behaviors>
+                                <behavior:SelectedItemsBehavior SelectedItems="{Binding SelectedPeriods}" />
+                            </b:Interaction.Behaviors>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Index"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding LongName}" Header="Langname"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Start, StringFormat=d, ConverterCulture=de}" Header="Start"></GridViewColumn>
+                                    <GridViewColumn DisplayMemberBinding="{Binding End, StringFormat=d, ConverterCulture=de}" Header="Ende"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </Grid>
+                
 
                 
             </Grid>
