@@ -8,6 +8,7 @@
                  xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                  xmlns:behavior="clr-namespace:UntisIccImporter.Gui.Behavior"
                  xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                 xmlns:s="clr-namespace:System;assembly=mscorlib"
                  dialog:DialogParticipation.Register="{Binding}"
                  ResizeMode="CanResizeWithGrip"
                  WindowStartupLocation="CenterScreen"
@@ -369,9 +370,15 @@
                 </Grid.ColumnDefinitions>
                 <Button Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand}"
                         Margin="0,0,5,0">
+                    <Button.CommandParameter>
+                        <s:Boolean>False</s:Boolean>
+                    </Button.CommandParameter>
                     Hochladen &amp; Benachrichtigen
                 </Button>
-                <Button Grid.Column="1" Margin="5,0,0,0" Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand, ConverterParameter=True}">
+                <Button Grid.Column="1" Margin="5,0,0,0" Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand}">
+                    <Button.CommandParameter>
+                        <s:Boolean>True</s:Boolean>
+                    </Button.CommandParameter>
                     Nur Hochladen (ohne Benachrichtigen)
                 </Button>
 
