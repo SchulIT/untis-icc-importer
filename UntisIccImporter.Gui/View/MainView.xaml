@@ -378,13 +378,33 @@
                     <Button.CommandParameter>
                         <s:Boolean>False</s:Boolean>
                     </Button.CommandParameter>
-                    Hochladen &amp; Benachrichtigen
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <iconPacks:PackIconForkAwesome Kind="Upload" VerticalAlignment="Center"
+                                                           Margin="0,0,5,0"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center">Hochladen &amp; Benachrichtigen</TextBlock>
+                    </Grid>
                 </Button>
                 <Button Grid.Column="1" Margin="5,0,0,0" Style="{DynamicResource MahApps.Styles.Button.Flat}" Command="{Binding UploadCommand}">
                     <Button.CommandParameter>
                         <s:Boolean>True</s:Boolean>
                     </Button.CommandParameter>
-                    Nur Hochladen (ohne Benachrichtigen)
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <iconPacks:PackIconForkAwesome Kind="Upload" VerticalAlignment="Center"
+                                                           Margin="0,0,5,0"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center">Nur Hochladen (ohne Benachrichtigen)</TextBlock>
+                    </Grid>
+
+                    
                 </Button>
 
             </Grid>
@@ -394,7 +414,7 @@
                       Grid.Row="2">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Zeitpunkt" DisplayMemberBinding="{Binding Date}"></GridViewColumn>
+                        <GridViewColumn Header="Zeitpunkt" DisplayMemberBinding="{Binding Date, ConverterCulture=de}"></GridViewColumn>
                         <GridViewColumn Header="Element" DisplayMemberBinding="{Binding Section}"></GridViewColumn>
                         <GridViewColumn Header="Ausgabe" DisplayMemberBinding="{Binding Output}"></GridViewColumn>
                     </GridView>
@@ -428,9 +448,31 @@
                     </TextBox>
 
                     <Button Grid.Column="1" Click="OnChooseFileClick"
-                            Style="{DynamicResource MahApps.Styles.Button.Flat}">auswählen</Button>
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <iconPacks:PackIconForkAwesome Kind="FolderOutlinepenOutline" VerticalAlignment="Center"
+                                                           Margin="0,0,5,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">auswählen</TextBlock>
+                        </Grid>
+                    </Button>
                     <Button Grid.Column="2" Command="{Binding LoadCommand}"
-                            Style="{DynamicResource MahApps.Styles.Button.Flat}">neu laden</Button>
+                            Style="{DynamicResource MahApps.Styles.Button.Flat}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <iconPacks:PackIconForkAwesome Kind="Refresh" VerticalAlignment="Center"
+                                                           Margin="0,0,5,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">neu laden</TextBlock>
+                        </Grid>
+                    </Button>
                 </Grid>
 
                 <Grid Grid.Row="1" Margin="0,10,0,0">
