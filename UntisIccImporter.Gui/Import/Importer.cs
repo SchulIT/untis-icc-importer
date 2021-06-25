@@ -215,16 +215,6 @@ namespace UntisIccImporter.Gui.Import
                         Text = substitution.Text
                     };
 
-                    if(string.IsNullOrEmpty(data.Subject))
-                    {
-                        data.Grades.Clear();
-                    }
-
-                    if(string.IsNullOrEmpty(substitution.ReplacementSubject))
-                    {
-                        data.ReplacementGrades.Clear();
-                    }
-
                     if(!string.IsNullOrEmpty(substitution.Teacher))
                     {
                         data.Teachers.Add(substitution.Teacher);
