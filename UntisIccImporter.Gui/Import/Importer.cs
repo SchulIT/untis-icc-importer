@@ -193,6 +193,8 @@ namespace UntisIccImporter.Gui.Import
         {
             ConfigureImporter();
 
+            var subjectReplacementMap = settingsManager.AppSettings.SubjectOverrides.ToDictionary(x => x.UntisSubject, x => x.NewSubject);
+
             var substitutions = result.Substitutions.Where(x => startDate == null || endDate == null || (startDate <= x.Date && x.Date <= endDate))
                 .Select(substitution =>
                 {
@@ -231,6 +233,17 @@ namespace UntisIccImporter.Gui.Import
                     if(!string.IsNullOrEmpty(substitution.ReplacementTeacher))
                     {
                         data.ReplacementTeachers.Add(substitution.ReplacementTeacher);
+                    }
+
+                    // Replace subject if necessary
+                    if (!string.IsNullOrEmpty(data.Subject) && subjectReplacementMap.ContainsKey(data.Subject))
+                    {
+                        data.Subject = subjectReplacementMap[data.Subject];
+                    }
+
+                    if (!string.IsNullOrEmpty(data.ReplacementSubject) && subjectReplacementMap.ContainsKey(data.ReplacementSubject))
+                    {
+                        data.ReplacementSubject = subjectReplacementMap[data.ReplacementSubject];
                     }
 
                     return data;
