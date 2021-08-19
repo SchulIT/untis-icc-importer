@@ -236,6 +236,11 @@ namespace UntisIccImporter.Gui.Import
                         data.ReplacementSubject = subjectReplacementMap[data.ReplacementSubject];
                     }
 
+                    if(substitution.Type == SubstitutionType.Entfall || substitution.Type == SubstitutionType.Freisetzung)
+                    {
+                        data.ReplacementGrades.Clear();
+                    }
+
                     return data;
                 }).Collapse().ToList();
 
