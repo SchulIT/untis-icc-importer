@@ -225,6 +225,11 @@ namespace UntisIccImporter.Gui.Import
                         data.ReplacementTeachers.Add(substitution.ReplacementTeacher);
                     }
 
+                    if(string.IsNullOrEmpty(data.ReplacementSubject))
+                    {
+                        data.ReplacementSubject = data.Subject;
+                    }
+
                     // Replace subject if necessary
                     if (!string.IsNullOrEmpty(data.Subject) && subjectReplacementMap.ContainsKey(data.Subject))
                     {
@@ -238,6 +243,7 @@ namespace UntisIccImporter.Gui.Import
 
                     if(substitution.Type == SubstitutionType.Entfall || substitution.Type == SubstitutionType.Freisetzung)
                     {
+                        data.ReplacementSubject = null;
                         data.ReplacementGrades.Clear();
                     }
 
